@@ -1,0 +1,152 @@
+{% include 'shared/html_head.html' %}
+
+<body>
+  {% include 'shared/platform_banner.html' %}
+  {% include 'shared/navigation.html' %}
+
+  <main>
+    <div class="container">
+      <div class="section">
+        <div class="row">
+          <div class="col s12">
+            <h4 class="header">💡 Smart Transaction Assistant</h4>
+            <p class="flow-text">Get AI-powered insights for your banking transactions. Enter a transaction description below and let our smart assistant analyze it for you.</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12 l8">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">Transaction Analysis</span>
+                
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea id="transactionInput" class="materialize-textarea" placeholder="e.g., Payment to Star Coffee $15.50, Weekly grocery shopping at SuperMart $120.00"></textarea>
+                    <label for="transactionInput">Transaction Description</label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col s12">
+                    <a class="waves-effect waves-light btn blue" id="analyzeBtn">
+                      <i class="material-icons left">analytics</i>Analyze Transaction
+                    </a>
+                  </div>
+                </div>
+
+                <div id="result" class="card-panel blue-grey lighten-5" style="display: none; margin-top: 20px;">
+                  <div id="resultContent" style="white-space: pre-wrap; font-family: 'Roboto Mono', monospace;"></div>
+                </div>
+
+                <div id="loading" class="center-align" style="display: none; margin-top: 20px;">
+                  <div class="preloader-wrapper small active">
+                    <div class="spinner-layer spinner-blue-only">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div>
+                      <div class="gap-patch">
+                        <div class="circle"></div>
+                      </div>
+                      <div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <p>Analyzing your transaction...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12 l4">
+            <div class="card blue-grey lighten-5">
+              <div class="card-content">
+                <span class="card-title">💡 Tips</span>
+                <p>For best results, include:</p>
+                <ul class="collection">
+                  <li class="collection-item">• Merchant name</li>
+                  <li class="collection-item">• Transaction amount</li>
+                  <li class="collection-item">• Transaction type</li>
+                  <li class="collection-item">• Any relevant details</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  {% include 'shared/footer.html' %}
+  {% include 'shared/scripts.html' %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const analyzeBtn = document.getElementById('analyzeBtn');
+      const transactionInput = document.getElementById('transactionInput');
+      const resultDiv = document.getElementById('result');
+      const resultContent = document.getElementById('resultContent');
+      const loadingDiv = document.getElementById('loading');
+
+      analyzeBtn.addEventListener('click', async function() {
+        const input = transactionInput.value.trim();
+        if (!input) {
+          M.toast({html: 'Please enter a transaction description', classes: 'orange'});
+          return;
+        }
+
+        // Show loading state
+        analyzeBtn.classList.add('disabled');
+        analyzeBtn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Analyzing...';
+        loadingDiv.style.display = 'block';
+        resultDiv.style.display = 'none';
+
+        try {
+          const response = await fetch('/analyze-transaction', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ transaction_description: input })
+          });
+
+          if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          
+          // Show results
+          loadingDiv.style.display = 'none';
+          resultContent.textContent = data.analysis;
+          resultDiv.style.display = 'block';
+          
+          // Scroll to results
+          resultDiv.scrollIntoView({ behavior: 'smooth' });
+          
+          M.toast({html: 'Analysis complete!', classes: 'green'});
+
+        } catch (error) {
+          loadingDiv.style.display = 'none';
+          resultContent.textContent = 'Error fetching analysis: ' + error.message;
+          resultDiv.style.display = 'block';
+          M.toast({html: 'Analysis failed. Please try again.', classes: 'red'});
+        } finally {
+          // Reset button state
+          analyzeBtn.classList.remove('disabled');
+          analyzeBtn.innerHTML = '<i class="material-icons left">analytics</i>Analyze Transaction';
+        }
+      });
+
+      // Allow Enter key to trigger analysis
+      transactionInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && event.ctrlKey) {
+          event.preventDefault();
+          analyzeBtn.click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!-- JavaScript common -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize Bootstrap Material Design
+  $('body').bootstrapMaterialDesign();
+  
+  // Setup event listener for the Transaction Assistant Anthosie button
+  var button = document.getElementById('transaction-anthosie-button');
+  
+  if (button) {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      $('#transaction-anthosie-modal').modal('show');
+    });
+  }
+
+  // Handle analyze button functionality inside the modal
+  var analyzeBtn = document.getElementById('modal-analyze-btn');
+  if (analyzeBtn) {
+    analyzeBtn.addEventListener('click', function() {
+      var input = document.getElementById('modal-transaction-input').value.trim();
+      var resultDiv = document.getElementById('modal-result');
+      resultDiv.style.display = 'none';
+      
+      if (!input) {
+        alert('Please enter a transaction description.');
+        return;
+      }
+      
+      // Show loading state (no icon)
+      analyzeBtn.classList.add('disabled');
+      analyzeBtn.innerHTML = 'Analyzing...';
+      
+      fetch('/analyze-transaction', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({transaction_description: input})
+      })
+      .then(function(response) {
+        if (!response.ok) {
+          throw new Error('API error: ' + response.status);
+        }
+        return response.json();
+      })
+      .then(function(data) {
+        resultDiv.textContent = data.analysis;
+        resultDiv.style.display = 'block';
+        resultDiv.scrollIntoView({ behavior: 'smooth' });
+      })
+      .catch(function(error) {
+        resultDiv.textContent = 'Error: ' + error.message;
+        resultDiv.style.display = 'block';
+      })
+      .finally(function() {
+        // Reset button state (no icon)
+        analyzeBtn.classList.remove('disabled');
+        analyzeBtn.innerHTML = 'Analyze Transaction';
+      });
+    });
+  }
+  
+  // Handle clear button
+  var clearBtn = document.getElementById('modal-clear-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      document.getElementById('modal-transaction-input').value = '';
+      document.getElementById('modal-result').style.display = 'none';
+    });
+  }
+});
+</script>
