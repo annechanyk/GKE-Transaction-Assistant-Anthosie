@@ -25,6 +25,7 @@ The application follows a microservices architecture deployed on GKE. The Transa
 *   **User Interface (`index.html`):** Updated to include the "Transaction Assistant Anthosie" button and the JavaScript required to call the analysis endpoint and display the results in a modal popup.
 *   **Kubernetes (`k8s/`):** The existing Kubernetes manifests are used to deploy the enhanced frontend service.
 <img src="https://drive.google.com/uc?export=view&id=1B_vYRPLXaeAor7_oP2kelpeJLtjLk0ZK" alt="Diagram" width="700"/>
+
 **Architecture Layers**
 *   **Simulation Layer**: Load generator simulating traffic
 *   **Application Layer**: Enhanced Frontend Service with the Transaction Assistant feature
