@@ -4,7 +4,7 @@
 
 
 ## Project Overview
-This project extends the original Bank of Anthos (BOA) sample application by integrating the Smart Transaction Assistant, Anthosie. This feature provides customers with intelligent, clear, and dynamic analysis of their transaction history using a mock integration with Google's Gemini AI.
+This project extends the original Bank of Anthos (BoA) sample application by integrating the Smart Transaction Assistant, Anthosie. This feature provides customers with intelligent, clear, and dynamic analysis of their transaction history using a mock integration with Google's Gemini AI.
 This enhancement transforms the standard transaction list into an interactive, user-friendly experience, demonstrating the power of integrating AI into modern, cloud-native banking applications running on Google Kubernetes Engine (GKE).
 
 
@@ -30,7 +30,7 @@ The application follows a microservices architecture deployed on GKE. The Transa
 *   **Simulation Layer**: Load generator simulating traffic
 *   **Application Layer**: Enhanced Frontend Service with the Transaction Assistant feature
 *   **AI Layer**: Mock Google Gemini AI integration for transaction analysis
-*   **Microservices Layer**: All BOA microservices (User Service, Transaction History, Balance Reader, etc.)
+*   **Microservices Layer**: All BoA microservices (User Service, Transaction History, Balance Reader, etc.)
 *   **Database Layer**: PostgreSQL databases for accounts and ledger data
 *   **Container Layer**: Docker containers orchestrated by Kubernetes
 *   **Platform Layer**: GKE providing the infrastructure
@@ -69,7 +69,7 @@ This project utilizes 2 primary types of data, both of which are self-contained 
 
 
 ## How to Use
-1.  Navigate to the BOA homepage.
+1.  Navigate to the BoA homepage.
 2.  Log in and view your transaction history.
 3.  Click the "Transaction Assistant Anthosie" button next to any transaction.
 4.  Enter a transaction description (e.g., "Coffee") into the prompt.
@@ -78,14 +78,14 @@ This project utilizes 2 primary types of data, both of which are self-contained 
 
 
 ## Deployment
-This project is deployed on GKE using the original BOA deployment scripts and manifests, with the `frontend` container image updated to `gcr.io/gke-hackathon/frontend:v-ultimate1`.
+This project is deployed on GKE using the original BoA deployment scripts and manifests, with the `frontend` container image updated to `gcr.io/gke-hackathon/frontend:v-ultimate1`.
 
 
 
 ## Key Takeaways
 Building this project was an amazing deep-dive into the world of cloud-native development. Here are a few things that really stood out to me:
 * **Microservices in Practice:**
-Seeing how BOA splits everything into small, focused services made it click. It was so much easier to work on one piece (like the frontend) without worrying about breaking the entire system.
+Seeing how BoA splits everything into small, focused services made it click. It was so much easier to work on one piece (like the frontend) without worrying about breaking the entire system.
 * **Power of GKE:**
 It is thrilling to realize how much work GKE handles behind the scenes. From networking all the services together to making sure they stay running, it let me focus on building features instead of managing the infrastructure.
 * **UX Challenge of AI:**
