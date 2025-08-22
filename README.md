@@ -68,7 +68,7 @@ This project utilizes 2 primary types of data, both of which are self-contained 
 
 
 
-## How to Use the Transaction Assistant
+## How to Use
 1.  Navigate to the BOA homepage.
 2.  Log in and view your transaction history.
 3.  Click the "Transaction Assistant Anthosie" button next to any transaction.
@@ -82,7 +82,7 @@ This project is deployed on GKE using the original BOA deployment scripts and ma
 
 
 
-## My Key Takeaways
+## Key Takeaways
 Building this project was an amazing deep-dive into the world of cloud-native development. Here are a few things that really stood out to me:
 * **Microservices in Practice:**
 Seeing how BOA splits everything into small, focused services made it click. It was so much easier to work on one piece (like the frontend) without worrying about breaking the entire system.
