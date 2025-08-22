@@ -93,5 +93,9 @@ It is thrilling to realize how much work GKE handles behind the scenes. From net
 
 
 
+## A Note on the Live Demo
+*   **Mock AI Engine:** To ensure a reliable, fast, and cost-effective demonstration for this hackathon, the Smart Transaction Assistant uses a **mock AI engine** built directly into the frontend service. This simulates the functionality of a powerful LLM like Google Gemini without incurring API costs or network latency.
+*   **Live Demo URL:** The application is fully deployable on Google Kubernetes Engine. However, to manage hosting costs for this hackathon project, the GKE cluster is not currently active. **If you would like to review a live, interactive version, please let me know, and I would be happy to deploy it for you.**
+
 
 
